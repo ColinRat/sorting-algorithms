@@ -1,0 +1,234 @@
+import java.io.FileReader;
+import java.io.IOException;
+import java.io.LineNumberReader;
+import java.util.Scanner;
+
+public class SortingAlgorithms {
+
+	public static void main(String[] args) throws IOException {
+			
+		System.out.println("Please enter file name:");
+		Scanner filename = new Scanner(System.in);
+		String filename1 = filename.next();
+		
+		FileReader filereader = new FileReader(filename1);
+		LineNumberReader lineNumberReader = new LineNumberReader(filereader);
+
+		int arraySize = 0;
+		while (lineNumberReader.readLine() != null){
+			arraySize++;
+		}
+		lineNumberReader.close();
+
+		FileReader filename2 = new FileReader(filename1);
+		int[] integers = new int [arraySize];
+		
+		int i=0;
+		Scanner input = new Scanner(filename2);
+		while(input.hasNext())
+		{
+			integers[i] = input.nextInt();
+			i++;
+		}
+		            
+///ChoiceAndSwitch
+
+			System.out.println("\nPlease select which algorithm to use: ");
+			System.out.println("\t1 - Bubble Sort");
+			System.out.println("\t2 - Selection Sort");
+			System.out.println("\t3 - Insertion Sort");
+			System.out.println("\t4 - Merge Sort");
+			System.out.println("\t5 - Quick Sort");
+			System.out.println("\tChoice: ");
+			
+			Scanner input1 = new Scanner(System.in);{
+			int choice = input1.nextInt();
+
+			switch (choice) {
+
+		case 1:
+			System.out.println("Array Before Bubble Sort");
+			System.out.println(java.util.Arrays.toString(integers));
+	
+			bubbleSort(integers);
+				                	
+			System.out.println("\nArray After Bubble Sort");
+			System.out.println(java.util.Arrays.toString(integers));
+			break;
+
+		case 2:
+			System.out.println("Array Before Selection Sort");
+			System.out.println(java.util.Arrays.toString(integers));
+	
+			selectionSort(integers);
+				                	
+			System.out.println("\nArray After Selection Sort");
+			System.out.println(java.util.Arrays.toString(integers));
+			break;
+	
+		case 3:
+			System.out.println("Array Before Insertion Sort");
+			System.out.println(java.util.Arrays.toString(integers));
+	
+			insertionSort(integers);
+				                	
+			System.out.println("\nArray After Insertion Sort");
+			System.out.println(java.util.Arrays.toString(integers));
+			break;
+	
+		case 4:      	   
+			System.out.println("Array Before Merge Sort");  
+			System.out.println(java.util.Arrays.toString(integers));
+			
+			Integer[] mergeArray = new Integer[integers.length];
+			int z = 0;
+			for (int value : integers) {
+				mergeArray[z++] = Integer.valueOf(value);
+			}
+				                	
+			mergeSort(mergeArray);
+				                	  
+			System.out.println("\nArray After Merge Sort");  
+			System.out.println(java.util.Arrays.toString(mergeArray));
+			break;
+			                  
+		case 5:
+			System.out.println("Array Before Quick Sort");
+			System.out.println(java.util.Arrays.toString(integers));
+				                	  
+			quickSort(integers, 0, integers.length-1);
+				                	
+			System.out.println("\nArray After Quick Sort");
+			System.out.println(java.util.Arrays.toString(integers));
+			break;
+			}
+		}
+}
+	
+///METHODS		            
+
+///BubbleSort	
+private static void bubbleSort(int[] integers) {
+	int j, i;
+	for (j = integers.length - 1; j > 0; j--) { 
+		for (i = 0; i < j; i++) { 
+			if (integers[i] > integers[i + 1]) { 
+				int temp = integers[i];
+				integers[i] = integers[i + 1];
+				integers[i + 1] = temp;
+				 }
+			 }
+		 }
+}
+	
+///SELECTIONSORT
+private static void selectionSort(int[] integers) {
+	int j, i, min;
+    int n = integers.length;
+	for (j = 0; j < n - 1; j++) {
+		min = j;
+		for (i = j + 1; i < n; i++) {
+			if (integers[i] < integers[min]) {
+				min = i;
+			}
+		}
+		 int temp = integers[j];
+		 integers[j] = integers[min];
+		 integers[min] = temp;
+		 
+	}
+}
+
+///INSERTIONSORT
+private static void insertionSort(int[] integers) {
+	int n = integers.length;
+	for (int j = 1; j < n; j++) {
+		int temp = integers[j];
+		int i = j;
+		while (i > 0 && integers[i - 1] > temp) {
+			integers[i] = integers[i - 1];
+			i--;
+            }
+		integers[i] = temp;
+	}
+}
+
+///MERGESORT	
+private static void mergeSort(Comparable[] mergeArray) {
+	Comparable[] temp = new Comparable[ mergeArray.length ];
+	sort(mergeArray, temp, 0, mergeArray.length - 1);
+}
+
+private static void sort(Comparable[] mergeArray, Comparable[] temp, int low, int high){
+	if(low < high){
+		int center = (low + high) / 2;
+		sort(mergeArray, temp, low, center);
+		sort(mergeArray, temp, center + 1, high);
+		merge(mergeArray, temp, low, center + 1, high);
+	}
+}
+
+private static void merge(Comparable[] mergeArray, Comparable[] temp, int lPosition, int rPosition, int rEnd){ 
+	int lEnd = rPosition - 1;
+	int tempPos = lPosition;
+	int elements = rEnd - lPosition + 1;
+
+	while( lPosition <= lEnd && rPosition <= rEnd){
+		if( mergeArray[ lPosition ].compareTo(mergeArray[rPosition]) <= 0){
+			temp[ tempPos ] = mergeArray[ lPosition ];
+			lPosition++;
+		}
+		else{
+			temp[ tempPos ] = mergeArray[ rPosition ];
+			rPosition++;
+		}
+		tempPos++;
+	}
+
+	while( lPosition <= lEnd){ 
+		temp[ tempPos ] = mergeArray[ lPosition ]; 
+		tempPos++; 
+		lPosition++; 
+	} 
+
+	while( rPosition <= rEnd){ 
+		temp[ tempPos ] = mergeArray[ rPosition ]; 
+		tempPos++; 
+		rPosition++; 
+	} 
+
+	for(int i = 0; i < elements; i++, rEnd--) 
+		mergeArray[ rEnd ] = temp[ rEnd ]; 
+	} 
+
+///QUICKSORT
+private static void quickSort(int[] integers, int left, int right) {
+	int p = partition(integers, left, right);
+		
+		if(left < p-1) {
+			quickSort(integers, left, p-1);
+		}
+	     
+		if(right > p) {
+			quickSort(integers, p, right);
+		}
+	}
+
+private static int partition(int[] integers, int left, int right) {
+	int p = integers[left+(right-left)/2];
+		
+	while (left <= right) {
+		while (integers[left] < p) left++;
+		while (integers[right] > p) right--;
+		if (left <= right) {
+			int temp = integers[left]; integers[left] = integers[right]; integers[right] = temp;
+			left++;
+			right--;
+		}
+	}
+	return left;
+	}
+}
+	
+
+  
